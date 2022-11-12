@@ -1,12 +1,40 @@
 version: 2.1
 
+parameters:
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
+
 executors:
   black:
     docker:
       # sh is available, but not git
       - image: pyfound/black:latest_release
-  
+  base:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+
 jobs:
+  github-actions-audit:
+    executor: base
+    steps:
+      - run:
+          name: audit
+          command: |
+            echo "action: << pipeline.parameters.GHA_Action >>"
+            echo "actor: << pipeline.parameters.GHA_Actor >>"
+            echo "event: << pipeline.parameters.GHA_Event >>"
+            echo "meta: << pipeline.parameters.GHA_Meta >>"
   lint:
     executor: black
     steps:
@@ -16,5 +44,7 @@ jobs:
 
 workflows:
   main:
+    when: << pipeline.parameters.GHA_Action >>
     jobs:
+      - github-actions-audit
       - lint
