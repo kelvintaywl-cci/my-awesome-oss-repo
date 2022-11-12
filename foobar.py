@@ -2,9 +2,11 @@
 Foobar module
 """
 
+import os
+
 
 def cli():
-    print("hello")
+    print(f"hello {os.environ['USER']}")
 
 
 if __name__ == "__main__":
