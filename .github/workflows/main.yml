@@ -1,5 +1,4 @@
 on:
-  push:
   pull_request:
     branches:
       - main
@@ -12,4 +11,5 @@ jobs:
         id: trigger-circleci
         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.5
         env:
-          CIRCLE_TOKEN: $
+          # CircleCI-Public/trigger-circleci-pipeline-action expects CCI_TOKEN
+          CCI_TOKEN: ${{ secrets.CIRCLE_TOKEN }}
