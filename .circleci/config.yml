@@ -1,0 +1,20 @@
+version: 2.1
+
+executors:
+  black:
+    docker:
+      # sh is available, but not git
+      - image: pyfound/black:latest_release
+  
+jobs:
+  lint:
+    executor: black
+    steps:
+      - checkout
+      - run: |
+          /opt/venv/bin/black --check foobar.py
+
+workflows:
+  main:
+    jobs:
+      - lint
