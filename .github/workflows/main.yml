@@ -1,0 +1,15 @@
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  trigger-circleci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CircleCI
+        id: trigger-circleci
+        uses: circleci/trigger_circleci_pipeline@v1.0
+        env:
+          CIRCLE_TOKEN: $
